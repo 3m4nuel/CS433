@@ -1,3 +1,15 @@
+/*
+ * Emmanuel A. Castillo
+ * 004268444
+ * Operating Systems
+ * Programming Assignment 2:
+ * -----------------------------------------
+ * Create a child process using fork()
+ * and have the parent process wait for
+ * the child process to finish before proceeding.
+ *
+ */
+
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
