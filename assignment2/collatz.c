@@ -67,7 +67,7 @@ void runParentProcess()
 
 int main(int argc,  char **argv)
 {
-    int intToProcess;
+    int intToProcess, argumentIndex = 0;
     pid_t childPid;
 
     if(argc != REQ_ARG_COUNT) {
@@ -75,12 +75,19 @@ int main(int argc,  char **argv)
         printf("ERROR: Invalid argument count.\n");
         return -1;
     }
-    /* Converts user input into integer for processing and validates conversion */
-    else if(!(intToProcess = atoi(argv[INT_ARG]))) {
-        /* Verifies a non-zero integer argument is inputted. */
-        printf("ERROR: Argument must be an integer.\n");
-        return -1;
+
+    /* Verifies a non-zero integer argument is inputted. */
+    while(argv[INT_ARG][argumentIndex])
+    {
+        if(isalpha(argv[INT_ARG][argumentIndex]) || argv[INT_ARG][argumentIndex] == '.') {
+            printf("ERROR: Argument must be an integer.\n");
+            return -1;
+        }
+        argumentIndex++;
     }
+
+    /* Converts user input into integer for processing. */
+    intToProcess = atoi(argv[INT_ARG]);
 
     if ((childPid = fork()) < 0) {
        /* Fork command failed - check the error. */
