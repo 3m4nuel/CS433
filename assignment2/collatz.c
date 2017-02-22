@@ -50,8 +50,8 @@ int oddCollatzConjecture(int curValue)
 /* Child process method: uses recursion to display Collatz Conjecture calculation */
 void runChildProcess(int intToProcess)
 {
-    /* Loops through Collatz Conjecture until the expected ended value of 1 */
-    while(intToProcess > 1)
+    /* Loops through Collatz Conjecture until the expected end value of 1 */
+    do
     {
         if(isEven(intToProcess) == 1)
             intToProcess = evenCollatzConjecture(intToProcess);
@@ -59,7 +59,7 @@ void runChildProcess(int intToProcess)
             intToProcess = oddCollatzConjecture(intToProcess);
 
         printf("CHILD: Current value = %d \n", intToProcess);
-    }
+    } while (intToProcess > 1);
 }
 
 /* Parent process method: waits for child process to end */
@@ -92,7 +92,7 @@ int main(int argc,  char **argv)
     while(argv[INT_ARG][argumentIndex])
     {
         if(!isdigit(argv[INT_ARG][argumentIndex])) {
-            printf("ERROR: Argument must be an integer.\n");
+            printf("ERROR: Argument must be a positive integer.\n");
             return -1;
         }
         argumentIndex++;
