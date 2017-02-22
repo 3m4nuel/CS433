@@ -8,6 +8,20 @@
  * and have the parent process wait for
  * the child process to finish before proceeding.
  *
+ * Output with argument of 24 (./collatz 24)
+ * -----------------------------------------
+ * CHILD: Current value = 12
+ * CHILD: Current value = 6
+ * CHILD: Current value = 3
+ * CHILD: Current value = 10
+ * CHILD: Current value = 5
+ * CHILD: Current value = 16
+ * CHILD: Current value = 8
+ * CHILD: Current value = 4
+ * CHILD: Current value = 2
+ * CHILD: Current value = 1
+ * PARENT: Process 20743 ended with status 0
+ *
  */
 
 #include <ctype.h>
@@ -88,7 +102,7 @@ int main(int argc,  char **argv)
         return -1;
     }
 
-    /* Verifies a non-zero integer argument is inputted. */
+    /* Verifies a positive integer argument is inputted. */
     while(argv[INT_ARG][argumentIndex])
     {
         if(!isdigit(argv[INT_ARG][argumentIndex])) {
