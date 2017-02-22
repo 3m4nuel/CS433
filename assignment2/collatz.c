@@ -54,10 +54,11 @@ void runChildProcess(int intToProcess)
 void runParentProcess()
 {
     pid_t cmpPid;
-    int status = 0;
-    cmpPid = wait(status);
+    int status;
+    cmpPid = wait(&status);
 
     if(status != 0) {
+        /* Verifies expected return value of 0 is returned. */
         error("ERROR: Child process ended incorrectly");
     }
 
@@ -74,14 +75,12 @@ int main(int argc,  char **argv)
         printf("ERROR: Invalid argument count.\n");
         return -1;
     }
-    else if(!isdigit(argv[INT_ARG])) {
+    /* Converts user input into integer for processing and validates conversion */
+    else if(!(intToProcess = atoi(argv[INT_ARG]))) {
         /* Verifies a non-zero integer argument is inputted. */
         printf("ERROR: Argument must be an integer.\n");
         return -1;
     }
-
-    /* Converts user input into integer for processing. */
-    intToProcess = atoi(argv[INT_ARG]);
 
     if ((childPid = fork()) < 0) {
        /* Fork command failed - check the error. */
