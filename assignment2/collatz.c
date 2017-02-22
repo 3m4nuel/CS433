@@ -91,7 +91,7 @@ int main(int argc,  char **argv)
     /* Verifies a non-zero integer argument is inputted. */
     while(argv[INT_ARG][argumentIndex])
     {
-        if(isalpha(argv[INT_ARG][argumentIndex]) || argv[INT_ARG][argumentIndex] == '.') {
+        if(!isdigit(argv[INT_ARG][argumentIndex])) {
             printf("ERROR: Argument must be an integer.\n");
             return -1;
         }
