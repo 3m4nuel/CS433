@@ -32,7 +32,8 @@
 
 #define REQ_ARG_COUNT 2
 #define INT_ARG 1
-
+#define MAX_INTEGER 499999990
+ 
 /* Method to handle actual errors */
 void error(const char *errorMsg)
 {
@@ -114,6 +115,12 @@ int main(int argc,  char **argv)
 
     /* Converts user input into integer for processing. */
     intToProcess = atoi(argv[INT_ARG]);
+
+    if(intToProcess > MAX_INTEGER) {
+	/* Make sure input integer is not over the limit */    
+	printf("ERROR: Integer is too large.\n");
+	return -1;   
+    }
 
     if ((childPid = fork()) < 0) {
        /* Fork command failed - check the error. */
