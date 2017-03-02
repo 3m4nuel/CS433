@@ -5,7 +5,23 @@
  * Programming Assignment 2:
  * -----------------------------------------
  * Utilize threads in estimating the value
- * of Pi using Monte Carlo simulation.
+ * of Pi using Monte Carlo simulation. The user
+ * input for the number of points will be used within
+ * each thread. From there, the number of hits and the
+ * number of points times the number of threads will
+ * be used in the PI formula estimation.
+ *
+ * Compiling:
+ * -----------------------------------------
+ * gcc mcarlo.c -o mcarlo -lpthread -lm
+ *
+ * Analysis:
+ * -----------------------------------------
+ * The formula does a good job getting close to the value
+ * of PI but not enough to be the actual value. In addition,
+ * you will notice that the estimation increase with the
+ * number of points used but starts to level out once
+ * the numbers get very large.
  *
  * Output with argument of 37000 for the number of points.
  * -----------------------------------------
@@ -29,21 +45,16 @@
  * Estimation of Pi is: 3.113924
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <pthread.h>
 
+#define MAX_INTEGER 99999998 /* This will prevent an overflow error */
 #define NUM_OF_THREADS 5
 
 int hit_count = 0;
-
-/* Method to handle actual errors */
-void error(const char *errorMsg)
-{
-    perror(errorMsg);
-    exit(EXIT_FAILURE);
-}
 
 /* Generates a double precision random number */
 double random_double()
@@ -82,7 +93,7 @@ void calculatePi(int totalnpoints)
 
 int main(int argc, char **argv)
 {
-    int npoints, i;
+    int npoints, i, argumentIndex = 0;
     pthread_t tid[NUM_OF_THREADS];
 
     /* Get the comand line parameters */
@@ -91,7 +102,23 @@ int main(int argc, char **argv)
        exit( -1);
     }
 
+    /* Verifies a positive integer argument is inputted. */
+    while(argv[1][argumentIndex])
+    {
+        if(!isdigit(argv[1][argumentIndex]) || ispunct(argv[1][argumentIndex])) {
+            printf("Error: Argument must be a positive integer.\n");
+            return -1;
+        }
+        argumentIndex++;
+    }
+
     npoints = atoi(argv[1]);
+
+    /* Make sure input integer is not over the limit */
+    if(npoints > MAX_INTEGER) {
+        printf("Error: Integer is too large.\n");
+        return -1;
+    }
 
     printf("Input number of points is %d. \n", npoints);
     printf("%d number of points will be distributed among %d threads. \n", NUM_OF_THREADS * npoints, NUM_OF_THREADS);
@@ -110,6 +137,7 @@ int main(int argc, char **argv)
         printf("Completed join with thread %d \n", i);
     }
 
+    /* Calculates PI based on Monte Carlo Simulation results. */
     calculatePi(NUM_OF_THREADS * npoints);
 
     exit(0);
