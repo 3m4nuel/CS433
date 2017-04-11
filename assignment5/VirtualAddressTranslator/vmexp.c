@@ -6,9 +6,9 @@
  * Programming Assignment 5: 
  * Virtual Address Translator
  * -----------------------------------------
- * This program exercises how logical addresses
- * are mapped into paging based memory
- * management system.
+ * This program shows how a virtual address
+ * are mapped into a physical address based
+ * on a paging based memory management system.
  *
  * Compiling:
  * -----------------------------------------
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 
     /* Obtain both page and offset from input address */
     page = address >> 12; // Page size is based on 4KB, thus 12 bits
-    offset = address & 0xfff; // Reminader defines the offset
+    offset = address & 0xfff; // Rest of the bits is the offset
 
     /* Dispay results to console */
     printf("The address %lu contains: \n", address);
