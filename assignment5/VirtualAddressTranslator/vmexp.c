@@ -2,28 +2,23 @@
  * Emmanuel A. Castillo
  * 004268444
  * Operating Systems
- * Programming Assignment 5:
+ *
+ * Programming Assignment 5: 
+ * Virtual Address Translator
  * -----------------------------------------
- * Synchronize threads in accessing data
- * from a memory block using mutex and
- * counting semaphores. A seperate empty and full
- * counting semaphore is used to determine whether
- * a producer has space to write or a consumer
- * has data to read. The mutex implements mutual
- * exclusion among the shared memory block
- * so the producer and consumer can properly
- * synchronize their write and read
- * operations, respectively. Additionally,
- * a checksum is used on the last 2 bytes of
- * each 32 bytes block to validate the data.
+ * This program exercises how logical addresses
+ * are mapped into paging based memory
+ * management system.
  *
  * Compiling:
  * -----------------------------------------
  * gcc vmexp.c -o vmexp
  *
- *
- * Output with argument of <address>: 19986
+ * Output with argument of <address>: 12321
  * -----------------------------------------
+ * The address 12321 contains:
+ * page number = 3
+ * offset = 33
  */
 
 #include <ctype.h>
