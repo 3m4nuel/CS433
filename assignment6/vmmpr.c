@@ -156,11 +156,17 @@ inline int getOptimalReplacementIndex(char frame[], char *currentPageRefs)
    int num_page_passed = 0;
    PAGE_INFO opt[FRAME_SZ] = { 0 };
 
+   /* Set up struct for pages to keep track of     *
+    * its future expectation while we look through *
+    * the future page references.                  */
    for (page_i = 0; page_i < FRAME_SZ; page_i++) {
       opt[page_i].count = OPT_MAX_LEN;
       opt[page_i].value = frame[page_i];
    }
 
+   /* Loop through pages and put page count until  *
+    * one of the pages is found on the future page *
+    * references                                   */
    while (*currentPageRefs)
    {
       if (*currentPageRefs == ',') {
@@ -171,6 +177,8 @@ inline int getOptimalReplacementIndex(char frame[], char *currentPageRefs)
       num_page_passed++;
       for (frame_i = 0; frame_i < FRAME_SZ; frame_i++)
       {
+         /* If page reference found on future pages,    *
+          * mark the number of pages until it is found. */
          if (frame[frame_i] == *currentPageRefs) 
          {
             for (page_i = 0; page_i < FRAME_SZ; page_i++)
@@ -187,6 +195,8 @@ inline int getOptimalReplacementIndex(char frame[], char *currentPageRefs)
       *currentPageRefs++;
    }
 
+   /* Sort by ascending order to define the page ref *
+    * with the longest expected reference if any.    */
    qsort(opt, FRAME_SZ, sizeof(PAGE_INFO), asc_sort);
 
    for (frame_i = 0; frame_i < FRAME_SZ; frame_i++)
@@ -197,6 +207,8 @@ inline int getOptimalReplacementIndex(char frame[], char *currentPageRefs)
       }
    }
 
+   /* Return page index from frame based on expected *
+    * longest page reference.                        */
    return opt_page_i;
 }
 
@@ -239,9 +251,11 @@ inline int getOptimalPageFaults(char *pageRefs)
 
          /* If we entered the last frame without finding the   *
           * page it will replace the frame whose page is not   *
-          * Expected to used for the longest.                  */
+          * expected to used for the longest.                  */
          else if ((opt_i + 1) == FRAME_SZ) {
             num_pagefault++;
+            /* Obtain index from the frame array with the page ref *
+             * that will not be referenced the longest.            */
             opt_rep_i = getOptimalReplacementIndex(opt, pageRefs);
             opt[opt_rep_i] = *pageRefs;
             break;
